@@ -1,0 +1,23 @@
+body {
+    width: 1920px;
+    margin: auto;
+}
+
+header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr) ;
+    grid-template-rows: repeat(1, 1fr) ;
+    background-color: red;
+    margin: 0;
+}
+
+.theme {
+    background-image: url(../img/);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+inlagg {
+
+}
+
