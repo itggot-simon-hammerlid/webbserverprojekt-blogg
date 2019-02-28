@@ -1,12 +1,15 @@
 body {
-    width: 1920px;
-    margin: auto;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    grid-template-columns: repeat(9, 1fr) ;
+    grid-template-rows: repeat(9, 1fr) ;
+    display: grid;  
 }
 
 header {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr) ;
-    grid-template-rows: repeat(1, 1fr) ;
+    grid-column: span 9;
+    grid-row: span 1;
     background-color: red;
     margin: 0;
 }

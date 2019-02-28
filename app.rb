@@ -13,7 +13,7 @@ get('/register') do
 end
 
 post('/create') do
-    db = SQLite3::Database.new('db/Databeis.db')
+    db = SQLite3::Database.new('db/Databasen.db')
     db.results_as_hash = true
 
     hashat_password = BCrypt::Password.create(params["Password"])
@@ -28,7 +28,7 @@ get('/login') do
 end
 
 post('/login') do
-    db = SQLite3::Database.new('db/Databeis.db')
+    db = SQLite3::Database.new('db/Databasen.db')
     db.results_as_hash = true
     #hashat_password = BCrypt::Password.create(params["Password"])
     #result = db.execute("SELECT * FROM users WHERE Username = ? AND Password = ?",params["Username"], hashat_password)
@@ -54,7 +54,7 @@ get('/error') do
 end
 
 post('/error') do
-    db = SQLite3::Database.new('db/Databeis.db')
+    db = SQLite3::Database.new('db/Databasen.db')
     db.results_as_hash = true
     #byebug 
     result = db.execute("SELECT * FROM users WHERE Username = ? AND Password = ?",params["Username"], params["Password"])
