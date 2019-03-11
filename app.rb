@@ -1,7 +1,6 @@
 require 'sinatra'
 require 'slim'
 require 'sqlite3'
-require 'byebug'
 require 'bcrypt'
 
 get('/') do
@@ -34,7 +33,13 @@ post('/login') do
     #result = db.execute("SELECT * FROM users WHERE Username = ? AND Password = ?",params["Username"], hashat_password)
     pass = db.execute("SELECT Password FROM users WHERE Username = ?",params["Username"])
     
-    if (BCrypt::Password.new(pass.first["Password"]) == params["Password"]) == true
+    #p pass.first["password"]
+    #p params["Password"]
+    if pass.length == 0
+        redirect('/error')
+    end
+    
+    if BCrypt::Password.new(pass[0]["password"]) == params["Password"]
         redirect('/worm')
     else
         redirect('/error')
