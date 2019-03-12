@@ -34,19 +34,17 @@ post('/login') do
     db.results_as_hash = true
     #hashat_password = BCrypt::Password.create(params["Password"])
     #result = db.execute("SELECT * FROM users WHERE Username = ? AND Password = ?",params["Username"], hashat_password)
-    pass = db.execute("SELECT Password FROM users WHERE Username = ?",params["Username"])
+    pass = db.execute("SELECT id, password FROM users WHERE username = ?",params["Username"])
     
-    
-    #ident = db.execute("SELECT id, password FROM users WHERE username=?", params["password"])
-
     #p pass.first["password"]
     #p params["Password"]
     if pass.length == 0
         redirect('/error')
     end
     
+
     if BCrypt::Password.new(pass[0]["password"]) == params["Password"]
-        #session["user"] = ident[0]
+        session["user"] = pass[0]['id']
         # ^sessions
         redirect('/worm')
     else
@@ -85,8 +83,7 @@ get('/worm') do
 end
 
 get('/logout') do
-    #if session
+    session.clear
     redirect('/')
-    #end
 end
 
