@@ -3,9 +3,12 @@ require 'slim'
 require 'sqlite3'
 require 'bcrypt'
 
+enable :sessions
+
 get('/') do
     slim(:index)
 end
+
 
 get('/register') do
     slim(:register)
@@ -33,6 +36,9 @@ post('/login') do
     #result = db.execute("SELECT * FROM users WHERE Username = ? AND Password = ?",params["Username"], hashat_password)
     pass = db.execute("SELECT Password FROM users WHERE Username = ?",params["Username"])
     
+    
+    #ident = db.execute("SELECT id, password FROM users WHERE username=?", params["password"])
+
     #p pass.first["password"]
     #p params["Password"]
     if pass.length == 0
@@ -40,6 +46,8 @@ post('/login') do
     end
     
     if BCrypt::Password.new(pass[0]["password"]) == params["Password"]
+        #session["user"] = ident[0]
+        # ^sessions
         redirect('/worm')
     else
         redirect('/error')
@@ -66,7 +74,7 @@ post('/error') do
     
     if result == []
         redirect('/error')
-    #result.first["Password"] 
+        #result.first["Password"] 
     else
         redirect('/worm')
     end
@@ -74,5 +82,11 @@ end
 
 get('/worm') do
     slim(:worm)
+end
+
+get('/logout') do
+    #if session
+    redirect('/')
+    #end
 end
 
