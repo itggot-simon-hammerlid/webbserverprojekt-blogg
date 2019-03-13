@@ -18,11 +18,16 @@ post('/create') do
     db = SQLite3::Database.new('db/Databasen.db')
     db.results_as_hash = true
 
+    result = db.execute("SELECT username FROM users WHERE username=?", params["Username"])
+
+    if result.length != 0
+        redirect('/register')
+    end
+    
     hashat_password = BCrypt::Password.create(params["Password"])
 
-    db.execute("INSERT INTO users (Username, Password) VALUES(?, ?)", params["Username"], hashat_password)
-
-    redirect('/login')
+    db.execute("INSERT INTO users (username, password) VALUES (?, ?)", params["Username"], hashat_password)
+    redirect('/')
 end
 
 get('/login') do
@@ -64,11 +69,29 @@ get('/error') do
     slim(:error)
 end
 
-post('/error') do
+get('/eroexist') do
+    slim(:erroexist)
+end
+
+post('/eroexist') do
     db = SQLite3::Database.new('db/Databasen.db')
     db.results_as_hash = true
     #byebug 
-    result = db.execute("SELECT * FROM users WHERE Username = ? AND Password = ?",params["Username"], params["Password"])
+    result = db.execute("SELECT * FROM users WHERE username = ? AND password = ?",params["Username"], params["Password"])
+    
+    if result == []
+        redirect('/error')
+        #result.first["Password"] 
+    else
+        redirect('/worm')
+    end
+end
+
+post('/error') do
+    db = SQLite3::Database.new('db/Databasen.db')
+    db.results_as_hash = true
+
+    result = db.execute("SELECT * FROM users WHERE username = ? AND password = ?",params["Username"], params["Password"])
     
     if result == []
         redirect('/error')
