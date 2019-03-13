@@ -105,6 +105,26 @@ get('/worm') do
     slim(:worm)
 end
 
+get('/profile') do
+    slim(:profile)
+end
+
+post('/post') do
+    db = SQLite3::Database.new('db/Databasen.db')
+    db.results_as_hash = true
+
+    #result = db.execute("SELECT username FROM users WHERE username=?", params["Username"])
+
+   # if result.length != 0
+    #    redirect('/register')
+    #end
+    
+    #hashat_password = BCrypt::Password.create(params["Password"])
+
+    #db.execute("INSERT INTO users (username, password) VALUES (?, ?)", params["Username"], hashat_password)
+    redirect('/profile')
+end
+
 get('/logout') do
     session.clear
     redirect('/')
