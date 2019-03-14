@@ -118,21 +118,16 @@ post('/post') do
     db = SQLite3::Database.new('db/Databasen.db')
     db.results_as_hash = true
     
-    # session["user"] = finish[0]["id"]
-    
-    # result = db.execute("SELECT * FROM posts")
-    # slim(:index, locals:{posts: result, session: session})
+    new_file_name = SecureRandom.uuid
+    temp_file = params["image"]["tempfile"]
+    path = File.path(temp_file)
 
-    # if result.length != 0
-    #    redirect('/register')
-    #end
-    
-    #hashat_password = BCrypt::Password.create(params["Password"])
+    new_file = FileUtils.copy(path, "./public/img/#{new_file_name}")
 
     db.execute("INSERT INTO posts (content, picture, userId) VALUES (?, ?, ?)",
         [
             params["Text"],
-            params["Picture"],
+            new_file_name,
             session['user']
         ]
     )
