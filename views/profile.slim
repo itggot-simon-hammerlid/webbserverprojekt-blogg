@@ -1,6 +1,14 @@
 main
 
     form action="/post" method="POST"
-        input name="Title" type="text" placeholder="Title" 
-        input name="Text" type="Text" placeholder="Text"
+        / input name="Title" type="text" placeholder="Title" 
+        input name="Text" type="text" placeholder="Text"
+        input name="Picture" type="file" value="Välj bild"
         input type="submit" value="Post"
+
+    div class="Posts"
+        a href="/posts"
+            p all
+        - users.each do |user|
+            a href="/posts/#{user['id']}"
+                p = user["username"]

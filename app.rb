@@ -106,24 +106,74 @@ get('/worm') do
 end
 
 get('/profile') do
-    slim(:profile)
+    db = SQLite3::Database.new('db/Databasen.db')
+    db.results_as_hash = true
+
+    users = db.execute("SELECT * FROM users")
+    
+    slim(:profile, locals:{users: users})
 end
 
 post('/post') do
     db = SQLite3::Database.new('db/Databasen.db')
     db.results_as_hash = true
+    
+    # session["user"] = finish[0]["id"]
+    
+    # result = db.execute("SELECT * FROM posts")
+    # slim(:index, locals:{posts: result, session: session})
 
-    #result = db.execute("SELECT username FROM users WHERE username=?", params["Username"])
-
-   # if result.length != 0
+    # if result.length != 0
     #    redirect('/register')
     #end
     
     #hashat_password = BCrypt::Password.create(params["Password"])
 
-    #db.execute("INSERT INTO users (username, password) VALUES (?, ?)", params["Username"], hashat_password)
+    db.execute("INSERT INTO posts (content, picture, userId) VALUES (?, ?, ?)",
+        [
+            params["Text"],
+            params["Picture"],
+            session['user']
+        ]
+    )
+    # name = db.execute("SELECT username FROM users WHERE id=?" , [session["user"]])
     redirect('/profile')
 end
+
+
+
+get('/posts') do
+    db = SQLite3::Database.new('db/Databasen.db')
+    db.results_as_hash = true
+
+    result = db.execute("SELECT * FROM posts")
+
+    slim(:posts, locals:{users_posts: result})
+end
+
+get('/posts/:id') do
+    db = SQLite3::Database.new('db/Databasen.db')
+    db.results_as_hash = true
+
+    result = db.execute("SELECT * FROM posts WHERE userId=?", [params["id"]])
+
+    slim(:posts, locals:{users_posts: result})
+end
+
+#configure do
+#    set :error_messages, {
+#        login_failed: "Login failed!!!"
+#       ... etc
+#    }
+#    settings.error[:login_failed]
+#end
+
+before do
+end
+
+after do
+end
+
 
 get('/logout') do
     session.clear

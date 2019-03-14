@@ -64,4 +64,11 @@ body {
     overflow-x:hidden;
 }
 
+.postor {
+    grid-column: span 9;
+    grid-row: span 9;
+}
+
+/* .postor > h1 { */
+/* } */
 
