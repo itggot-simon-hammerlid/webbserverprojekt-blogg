@@ -163,6 +163,32 @@ end
 #    settings.error[:login_failed]
 #end
 
+post('/alter/:id') do
+    db = SQLite3::Database.new('db/Databasen.db')
+    db.results_as_hash = true
+    
+    new_file_name = SecureRandom.uuid
+    temp_file = params["image"]["tempfile"]
+    path = File.path(temp_file)
+
+    new_file = FileUtils.copy(path, "./public/img/#{new_file_name}")
+
+    db.execute("REPLACE INTO posts (content, picture, userId, id) VALUES (?, ?, ?, ?)",
+        [
+            params["Text"],
+            new_file_name,
+            session['user'],
+            (här skall jag skriva id)
+        ]
+    )
+    # name = db.execute("SELECT username FROM users WHERE id=?" , [session["user"]])
+    redirect('/profile')
+end
+
+get('/alter') do
+    redirect('/alter')
+end
+
 before do
 end
 
