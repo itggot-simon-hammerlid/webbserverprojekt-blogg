@@ -3,5 +3,13 @@ div class="postor"
     - users_posts.each do |post|
         article
             p = post["content"]
+            p = post["userId"]  
+            img src="/img/#{post['picture']}"
+            a href="/alter/#{post['id']}"
+    / form action="/alter/:id" method="POST"
+    /     / input name="Title" type="text" placeholder="Title" 
+    /     input name="Text" type="text" placeholder="Text"
+    /     input name="Picture" type="file" value="Välj bild"
+    /     input type="submit" value="Update"
             img src="/img/#{post['picture']}"
             p = post["userId"]  
