@@ -1,7 +1,7 @@
 main   
 
-    form action="/alter/:id" method="POST"
+    form action="/alter/:id" method="POST" id="formula" enctype="multipart/form-data"
         / input name="Title" type="text" placeholder="Title" 
         input name="Text" type="text" placeholder="Text"
-        input name="Picture" type="file" value="Välj bild"
+        input type="file" name="image" accept="image/*" id="image"
         input type="submit" value="Update"
